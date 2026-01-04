@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: route-go-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: routedb
+    ports:
+      - "5433:5432"
+    volumes:
+      - route_go_postgres_data:/var/lib/postgresql/data
+
+  # We'll add the python worker later once the Dockerfile is ready, 
+  # or run it locally for dev. For now, let's keep it simple.
+
+  pubsub:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    command: gcloud beta emulators pubsub start --project=route-go-project --host-port=0.0.0.0:8085
+    ports:
+      - "8085:8085"
+    environment:
+      PUBSUB_EMULATOR_HOST: 0.0.0.0:8085
+
+volumes:
+  route_go_postgres_data:

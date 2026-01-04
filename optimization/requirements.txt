@@ -1,0 +1,6 @@
+ortools>=9.6
+psycopg2-binary
+python-dotenv
+scikit-learn
+numpy
+google-cloud-pubsub
